@@ -1,24 +1,24 @@
 {
-  "name": "@cholwell/ts-result",
-  "repository": "https://github.com/cholwell/ts-result",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-      ".": {
-          "import": "./dist/index.js",
-          "require": "./dist/index.js",
-          "types": "./dist/index.d.ts"
-      }
-  },
-  "files": [
-      "dist"
-  ],
-  "scripts": {
-      "build": "tsup",
-      "publish:github": "npm run build && npm publish --registry https://npm.pkg.github.com"
-  },
-  "devDependencies": {
-      "tsup": "^8.4.0",
-      "typescript": "^5.4.0"
-  }
+    "name": "@cholwell/ts-result",
+    "repository": "https://github.com/cholwell/ts-result",
+    "version": "1.0.0",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "publish:github": "npm run build && npm publish --registry https://npm.pkg.github.com"
+    },
+    "devDependencies": {
+        "tsup": "^8.4.0",
+        "typescript": "^5.4.0"
+    }
 }
