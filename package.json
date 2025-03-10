@@ -1,6 +1,6 @@
 {
-    "name": "@cholwell/ts-result",
-    "repository": "https://github.com/cholwell/ts-result",
+    "name": "@cholwell/ts_result",
+    "repository": "https://github.com/cholwell/ts_result",
     "version": "1.0.5",
     "type": "module",
     "exports": {

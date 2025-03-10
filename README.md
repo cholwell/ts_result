@@ -1,1 +1,1 @@
-# ts-result
+# ts_result
