@@ -25,6 +25,13 @@ export function okOrDefault<V>(result: Result<V, unknown>, defaultValue: V): V {
     return isOk(result) ? result.value : defaultValue;
 }
 
+export function okOrThrow<V>(result: Result<V, unknown>): V {
+    if (isError(result)) {
+        throw new Error("result is error");
+    }
+    return result.value;
+}
+
 // Error
 
 export type Error<E = undefined> = {
@@ -48,4 +55,11 @@ export function isError<E>(result: Result<unknown, E>): result is Error<E> {
 
 export function errorOrDefalt<E>(result: Result<unknown, E>, defaultError: E): E {
     return isError(result) ? result.error : defaultError;
+}
+
+export function errorOrThrow<E>(result: Result<unknown, E>): E {
+    if (isOk(result)) {
+        throw new Error("result is ok");
+    }
+    return result.error;
 }
