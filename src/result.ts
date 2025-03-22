@@ -2,6 +2,8 @@
 
 export type Result<V = undefined, E = undefined> = Ok<V> | Error<E>;
 
+export type AsyncResult<V = undefined, E = undefined> = Promise<Result<V, E>>;
+
 // Ok
 
 export class Ok<V = undefined> {
