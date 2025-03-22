@@ -17,6 +17,22 @@ export class Ok<V = undefined> {
     isError(): this is Error<never> {
         return false;
     }
+
+    okOrDefault(_defaultValue: V): V {
+            return this.value;
+        }
+
+    okOrThrow(): V {
+        return this.value;
+    }
+
+    errorOrDefault<E>(defaultError: E): E {
+        return defaultError;
+    }
+
+    errorOrThrow<E>(): never {
+        throw new Error("result is ok");
+    }
 }
 
 export function ok<V>(value: V): Ok<V>;
@@ -24,21 +40,6 @@ export function ok(): Ok;
 
 export function ok<V>(value?: V): Ok<V> {
     return new Ok(value as V);
-}
-
-export function isOk<V>(result: Result<V, unknown>): result is Ok<V> {
-    return result.isOk();
-}
-
-export function okOrDefault<V>(result: Result<V, unknown>, defaultValue: V): V {
-    return result.isOk() ? result.value : defaultValue;
-}
-
-export function okOrThrow<V>(result: Result<V, unknown>): V {
-    if (result.isError()) {
-        throw new Error("result is error");
-    }
-    return result.value;
 }
 
 // Error
@@ -54,6 +55,22 @@ export class Error<E = undefined> {
     isError(): this is Error<E> {
         return true;
     }
+
+    okOrDefault<V>(defaultValue: V): V {
+        return defaultValue;
+    }
+
+    okOrThrow(): never {
+        throw new Error("result is error");
+    }
+
+    errorOrDefault(defaultError: E): E {
+        return this.error ?? defaultError;
+    }
+
+    errorOrThrow(): E {
+        return this.error;
+    }
 }
 
 export function error<E>(error: E): Error<E>;
@@ -61,19 +78,4 @@ export function error(): Error<undefined>;
 
 export function error<E>(error?: E): Error<E> {
     return new Error(error as E);
-}
-
-export function isError<E>(result: Result<unknown, E>): result is Error<E> {
-    return result.isError();
-}
-
-export function errorOrDefault<E>(result: Result<unknown, E>, defaultError: E): E {
-    return result.isError() ? result.error : defaultError;
-}
-
-export function errorOrThrow<E>(result: Result<unknown, E>): E {
-    if (result.isOk()) {
-        throw new Error("result is ok");
-    }
-    return result.error;
 }
