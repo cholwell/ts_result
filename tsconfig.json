@@ -1,13 +1,9 @@
 {
-    "compilerOptions": {
-        "module": "esnext",
-        "target": "esnext",
-        "strict": true,
-        "moduleResolution": "bundler",
-        "declaration": true,
-        "outDir": "./dist",
-        "paths": { "@/*": ["./src/*"] }
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+	"extends": "@tsconfig/recommended/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*"]
 }
