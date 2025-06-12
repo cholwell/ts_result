@@ -4,10 +4,11 @@ export type Result<V = undefined, E = undefined> = Ok<V> | Error<E>;
 
 export type AsyncResult<V = undefined, E = undefined> = Promise<Result<V, E>>;
 
-export function unwrapAll<T, E>(
-	asyncResults: Array<AsyncResult<T, E>>
-): Promise<T[]> {
-	return Promise.all(asyncResults.map(r => r.then(r => r.unwrap())));
+export async function unwrapAlll<T extends unknown[]>(
+	...asyncResults: { [K in keyof T]: AsyncResult<T[K], unknown> }
+): Promise<T> {
+	const values = await Promise.all(asyncResults.map(ar => ar.then(r => r.unwrap())))
+	return values as T
 }
 
 // Ok
