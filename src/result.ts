@@ -4,13 +4,6 @@ export type Result<V = undefined, E = undefined> = Ok<V> | Error<E>;
 
 export type AsyncResult<V = undefined, E = undefined> = Promise<Result<V, E>>;
 
-export async function unwrapAll<T extends unknown[]>(
-	asyncResults: { [K in keyof T]: AsyncResult<T[K], unknown> }
-): Promise<T> {
-	const values = await Promise.all(asyncResults.map(p => p.then(r => r.unwrap())));
-	return values as T;
-}
-
 // Ok
 
 export class Ok<V = undefined> {
@@ -61,4 +54,19 @@ export function error(): Error<undefined>;
 
 export function error<E>(error?: E): Error<E> {
     return new Error(error as E);
+}
+
+// Helpers
+
+export function all<T extends unknown[]>(
+	...promises: { [K in keyof T]: Promise<T[K]> }
+): Promise<T> {
+	return Promise.all(promises) as Promise<T>;
+}
+
+export async function unwrapAll<T extends unknown[]>(
+	asyncResults: { [K in keyof T]: AsyncResult<T[K], unknown> }
+): Promise<T> {
+	const values = await Promise.all(asyncResults.map(p => p.then(r => r.unwrap())));
+	return values as T;
 }
