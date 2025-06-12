@@ -58,10 +58,8 @@ export function error<E>(error?: E): Error<E> {
 
 // Helpers
 
-export function all<T extends unknown[]>(
-	...promises: { [K in keyof T]: Promise<T[K]> }
-): Promise<T> {
-	return Promise.all(promises) as Promise<T>;
+export function all(values: any) {
+	return Promise.all(values);
 }
 
 export async function unwrapAll<T extends unknown[]>(
