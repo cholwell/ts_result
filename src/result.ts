@@ -4,6 +4,12 @@ export type Result<V = undefined, E = undefined> = Ok<V> | Error<E>;
 
 export type AsyncResult<V = undefined, E = undefined> = Promise<Result<V, E>>;
 
+export function unwrapAll<T, E>(
+	asyncResults: Array<AsyncResult<T, E>>
+): Promise<T[]> {
+	return Promise.all(asyncResults.map(r => r.then(r => r.unwrap())));
+}
+
 // Ok
 
 export class Ok<V = undefined> {
@@ -18,20 +24,8 @@ export class Ok<V = undefined> {
         return false;
     }
 
-    okOrDefault(_defaultValue: V): V {
-            return this.value;
-        }
-
-    okOrThrow(): V {
+    unwrap(): V {
         return this.value;
-    }
-
-    errorOrDefault<E>(defaultError: E): E {
-        return defaultError;
-    }
-
-    errorOrThrow<E>(): never {
-        throw new Error("result is ok");
     }
 }
 
@@ -56,20 +50,8 @@ export class Error<E = undefined> {
         return true;
     }
 
-    okOrDefault<V>(defaultValue: V): V {
-        return defaultValue;
-    }
-
-    okOrThrow(): never {
+    unwrap(): never {
         throw new Error("result is error");
-    }
-
-    errorOrDefault(defaultError: E): E {
-        return this.error ?? defaultError;
-    }
-
-    errorOrThrow(): E {
-        return this.error;
     }
 }
 
