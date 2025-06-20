@@ -58,6 +58,10 @@ export function error<E>(error?: E): Error<E> {
 
 // Helpers
 
+export async function unwrap<T>(asyncResult: AsyncResult<T, unknown>): Promise<T> {
+	return asyncResult.then(r => r.unwrap());
+}
+
 export function all(values: any) {
 	return Promise.all(values);
 }
