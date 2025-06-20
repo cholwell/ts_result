@@ -64,8 +64,8 @@ export async function unwrap<T>(
 	return asyncResult.then(r => r.unwrap());
 }
 
-export function unwrapAll<T extends unknown[]>(
+export function unwrapAll<T extends readonly unknown[]>(
 	asyncResults: { [K in keyof T]: AsyncResult<T[K], unknown> }
-): Promise<T> {
-	return Promise.all(asyncResults.map(p => p.then(r => r.unwrap()))) as Promise<T>;
+): { [K in keyof T]: Promise<T[K]> } {
+	return asyncResults.map(p => p.then(r => r.unwrap())) as { [K in keyof T]: Promise<T[K]> };
 }
