@@ -58,17 +58,14 @@ export function error<E>(error?: E): Error<E> {
 
 // Helpers
 
-export async function unwrap<T>(asyncResult: AsyncResult<T, unknown>): Promise<T> {
+export async function unwrap<T>(
+	asyncResult: AsyncResult<T, unknown>
+): Promise<T> {
 	return asyncResult.then(r => r.unwrap());
 }
 
-export function all(values: any) {
-	return Promise.all(values);
-}
-
-export async function unwrapAll<T extends unknown[]>(
+export function unwrapAll<T extends unknown[]>(
 	asyncResults: { [K in keyof T]: AsyncResult<T[K], unknown> }
 ): Promise<T> {
-	const values = await Promise.all(asyncResults.map(p => p.then(r => r.unwrap())));
-	return values as T;
+	return Promise.all(asyncResults.map(p => p.then(r => r.unwrap()))) as Promise<T>;
 }
